@@ -1,7 +1,7 @@
 {
   "name": "lytex-language-support",
   "publisher": "bncummings",
-  "displayName": "Lytex Language Support",
+  "displayName": "Lytex (LilyPond + LaTeX) Language Support",
   "description": "Syntax highlighting for lytex- an extension of LaTeX that supports lilypond rendering",
   "version": "0.0.2",
   "icon": "images/icon.png",

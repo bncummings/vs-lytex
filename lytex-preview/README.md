@@ -3,6 +3,7 @@
 Render **LaTeX documents with embedded LilyPond** snippets directly to **PDF**, all from within VS Code.  
 
 ## Prerequisites
+NOTE: This extension is currently MacOS exclusive.
 LyTeX Compilation depends requires the following tools to be installed:
 - [lilypond](https://lilypond.org/download.html) - includes `lilypond-book` which can embed lilypond in LaTeX.
 - [latexit](https://www.chachatelier.fr/latexit/latexit-downloads.php) - For rendering latex.

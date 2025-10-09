@@ -3,8 +3,10 @@
   "publisher": "bncummings",
   "displayName": "lytex-preview",
   "description": "Preview and compile LyTeX files. Requires LilyPond to be installed.",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "icon": "images/icon.png",
+  "license": "MIT",
+  "readme": "README.md",
   "repository": {
     "type": "git",
     "url": "https://github.com/bncummings/vs-lytex"},

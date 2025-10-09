@@ -33,7 +33,7 @@ LyTeX Compilation depends requires the following tools to be installed:
   
 - **Compile Straight To PDF** — Compile `.lytex` files containing `lilypond` environments directly to PDF.
 
-  <img src="images/compile-example.gif" alt="LyTeX compile demo">
+  <img src="./snippets/compile-example.gif" alt="LyTeX compile demo">
   
 - **Lytex Preview Session** — Recompile automatically on save.
-<img src="images/example.gif" alt="LyTeX preview demo">
+<img src="./snippets/example.gif" alt="LyTeX preview demo">

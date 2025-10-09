@@ -1,7 +1,7 @@
 {
   "name": "lytex-preview",
   "publisher": "bncummings",
-  "displayName": "lytex-preview",
+  "displayName": "Lytex PDF Preview",
   "description": "Preview and compile LyTeX files. Requires LilyPond to be installed.",
   "version": "0.0.5",
   "icon": "images/icon.png",

@@ -80,8 +80,28 @@ export function sendMessageToWebview(filePath: string, message: any): boolean {
 }
 
 function loadWebviewHtml(context: vscode.ExtensionContext, baseName: string, webview: vscode.Webview): string {
-    const htmlPath = path.join(context.extensionPath, 'src', 'preview', 'webview', 'webview.html');
-    const scriptDir = path.join(context.extensionPath, 'src', 'preview', 'webview');
+    // Try a few locations so this works both from source (during development)
+    // and from a packaged extension (where assets are typically copied to `dist`).
+    const candidates = [
+        path.join(context.extensionPath, 'dist', 'preview', 'webview', 'webview.html'),
+        path.join(context.extensionPath, 'preview', 'webview', 'webview.html'),
+        path.join(context.extensionPath, 'src', 'preview', 'webview', 'webview.html')
+    ];
+
+    const htmlPath = candidates.find(p => fs.existsSync(p));
+    if (!htmlPath) {
+        throw new Error(`webview.html not found in any expected location: ${candidates.join(', ')}`);
+    }
+
+    // Determine script directory from the located htmlPath, falling back to standard locations
+    const scriptDirCandidates = [
+        path.dirname(htmlPath),
+        path.join(context.extensionPath, 'dist', 'preview', 'webview'),
+        path.join(context.extensionPath, 'preview', 'webview'),
+        path.join(context.extensionPath, 'src', 'preview', 'webview')
+    ];
+
+    const scriptDir = scriptDirCandidates.find(d => fs.existsSync(d)) || path.dirname(htmlPath);
     const scriptDirUri = webview.asWebviewUri(vscode.Uri.file(scriptDir));
 
     let htmlContent = fs.readFileSync(htmlPath, 'utf8');

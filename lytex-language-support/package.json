@@ -1,10 +1,16 @@
 {
   "name": "lytex-language-support",
-  "displayName": "lytex language support",
+  "publisher": "bncummings",
+  "displayName": "Language Support for embedded LilyPond in LaTeX",
   "description": "Syntax highlighting for lytex- an extension of latex that supports lilypond rendering",
   "version": "0.0.1",
+  "icon": "images/icon.png",
   "engines": {
     "vscode": "^1.103.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bncummings/vs-lytex"
   },
   "categories": [
     "Programming Languages"

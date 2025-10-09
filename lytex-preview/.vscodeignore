@@ -3,6 +3,7 @@
 out/**
 node_modules/**
 src/**
+.lytex/**
 .gitignore
 .yarnrc
 esbuild.js

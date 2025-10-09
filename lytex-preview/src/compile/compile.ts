@@ -14,11 +14,24 @@ import { CompileResult } from '../types';
 export async function compileLytexFile(context: vscode.ExtensionContext, filePath: string): Promise<CompileResult> {
     const baseName = path.basename(filePath, '.lytex');
     const pdfPath = path.join(path.dirname(filePath), `${baseName}.pdf`);
-    const scriptPath = path.join(context.extensionPath, 'src', 'compile', 'compile.sh');
-    
-    console.log('Extension path:', context.extensionPath);
-    console.log('Script path:', scriptPath);
-    console.log('File path:', filePath);
+    const scriptPath = path.join(context.extensionPath, 'dist', 'compile', 'compile.sh');
+
+    if (!fs.existsSync(scriptPath)) {
+        return Promise.resolve({
+            success: false,
+            error: `compile.sh not found at expected path: ${scriptPath}`,
+            stdout: '',
+            stderr: ''
+        });
+    }
+
+    // Ensure the script is executable
+    try {
+        fs.chmodSync(scriptPath, 0o755);
+    } catch (e) {
+        // Not fatal; just log and continue
+        console.warn('Failed to chmod compile script:', e);
+    }
     
     return new Promise<CompileResult>((resolve) => {
         cp.exec(`bash "${scriptPath}" "${filePath}"`, { cwd: context.extensionPath }, (error, stdout, stderr) => {

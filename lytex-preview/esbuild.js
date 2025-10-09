@@ -46,6 +46,76 @@ async function main() {
 		await ctx.watch();
 	} else {
 		await ctx.rebuild();
+		// Ensure static webview assets are copied to dist so the packaged extension can load them
+	const fs = require('fs');
+		const srcWebview = require('path').join(process.cwd(), 'src', 'preview', 'webview');
+		const distWebview = require('path').join(process.cwd(), 'dist', 'preview', 'webview');
+
+		function copyRecursive(src, dest) {
+			if (!fs.existsSync(src)) {
+				return;
+			}
+			if (!fs.existsSync(dest)) { fs.mkdirSync(dest, { recursive: true }); }
+			const entries = fs.readdirSync(src, { withFileTypes: true });
+			for (const entry of entries) {
+				const srcPath = require('path').join(src, entry.name);
+				const destPath = require('path').join(dest, entry.name);
+				if (entry.isDirectory()) {
+					copyRecursive(srcPath, destPath);
+				} else if (entry.isFile()) {
+					// Skip TypeScript source files; we only want runtime assets in dist
+					if (srcPath.endsWith('.ts')) {
+						continue;
+					}
+					fs.copyFileSync(srcPath, destPath);
+				}
+			}
+		}
+
+		copyRecursive(srcWebview, distWebview);
+
+		// Also copy compile scripts folder so shell scripts are available in the packaged extension
+		// Copy both preview/compile (if present) and top-level src/compile into dist
+		const srcCompilePreview = require('path').join(process.cwd(), 'src', 'preview', 'compile');
+		const distCompilePreview = require('path').join(process.cwd(), 'dist', 'preview', 'compile');
+		copyRecursive(srcCompilePreview, distCompilePreview);
+
+		const srcCompile = require('path').join(process.cwd(), 'src', 'compile');
+		const distCompile = require('path').join(process.cwd(), 'dist', 'compile');
+		copyRecursive(srcCompile, distCompile);
+
+		// Copy top-level install.sh if present
+		const rootInstall = require('path').join(process.cwd(), 'install.sh');
+		if (fs.existsSync(rootInstall)) {
+			const destInstall = require('path').join(process.cwd(), 'dist', 'install.sh');
+			fs.copyFileSync(rootInstall, destInstall);
+		}
+
+		// Ensure any .sh files in dist are executable (set 755)
+		function makeShellScriptsExecutable(dir) {
+			if (!fs.existsSync(dir)) {
+				return;
+			}
+			const entries = fs.readdirSync(dir, { withFileTypes: true });
+			for (const entry of entries) {
+				const p = require('path').join(dir, entry.name);
+				if (entry.isDirectory()) {
+					makeShellScriptsExecutable(p);
+				} else if (entry.isFile() && p.endsWith('.sh')) {
+					try {
+						fs.chmodSync(p, 0o755);
+					} catch (e) {
+						console.warn('Failed to chmod shell script', p, e);
+					}
+				}
+			}
+		}
+
+		makeShellScriptsExecutable(distCompile);
+		if (fs.existsSync(require('path').join(process.cwd(), 'dist', 'install.sh'))) {
+			makeShellScriptsExecutable(require('path').join(process.cwd(), 'dist'));
+		}
+
 		await ctx.dispose();
 	}
 }

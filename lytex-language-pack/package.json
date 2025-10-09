@@ -1,5 +1,5 @@
 {
-  "name": "lytex--language-pack",
+  "name": "lytex-language-pack",
   "displayName": "LyTeX Language Pack",
   "description": "All-in-one LyTeX setup: syntax highlighting and PDF rendering for LaTeX with embedded LilyPond.",
   "version": "1.0.0",
@@ -17,5 +17,6 @@
     "type": "git",
     "url": "https://github.com/bncummings/vs-lytex"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "readme": "README.md"
 }

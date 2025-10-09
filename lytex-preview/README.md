@@ -12,12 +12,12 @@ Render **LaTeX documents with embedded LilyPond** snippets directly to **PDF**, 
   \usepackage{lilypond}
   
   \begin{document}
-  Here’s a simple melody:
-  
-  \begin{lilypond}
-  \relative c' { c d e f g a b c }
-  \end{lilypond}
-  
+    Here’s a simple melody:
+    
+    \begin{lilypond}
+      \relative c' { c d e f g a b c }
+    \end{lilypond}
+    
   \end{document}
   ```
 
@@ -25,7 +25,7 @@ Render **LaTeX documents with embedded LilyPond** snippets directly to **PDF**, 
   
 - **Compile Straight To PDF** — Compile `.lytex` files containing `lilypond` environments directly to PDF.
 
-  ![Demo of Lytex rendering](images/example.gif)
+  ![Demo of Lytex compiling](images/compile-example.gif)
   
 - **Lytex Preview Session** — Recompile automatically on save.
 
